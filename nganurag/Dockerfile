@@ -18,7 +18,7 @@ RUN npm install
 # Copy the rest of the application code into the container
 COPY . .
 # Build the Angular application for production
-RUN npm run build --prod
+RUN npm run build --configuration production
 # Stage 2: Serve the application using a lightweight web server
 FROM nginx:alpine
 # Copy the built Angular files from the previous stage
