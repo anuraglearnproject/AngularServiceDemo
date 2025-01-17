@@ -37,10 +37,14 @@ steps:
 #     appType: 'webApp'
 #     WebAppName: 'aipngapp'
 #     packageForLinux: '$(System.DefaultWorkingDirectory)/**.zip'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'nganurag/dist'
+    ArtifactName: 'nganurag/dist'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: '$(Build.BinariesDirectory)/nganurag/'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
