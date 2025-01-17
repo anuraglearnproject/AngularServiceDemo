@@ -18,24 +18,20 @@ steps:
 - script: |
     cd nganurag
     npm install
-    npm run build
+    npm run build --configuration production
   displayName: 'npm install and build'
-
-
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'nganurag/dist'
+    ArtifactName: 'nganurag/dist'
+    
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/nganurag'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
-
-# - task: DownloadBuildArtifacts@1
-#   inputs:
-#     buildType: 'current'
-#     downloadType: 'single'
-#     artifactName: 'DownloadAngularApp'    
-#     downloadPath: '$(System.ArtifactsDirectory)/$(Build.BuildId).zip'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
@@ -43,4 +39,19 @@ steps:
     azureSubscription: 'SVCAngularApp'
     appType: 'webApp'
     WebAppName: 'aipngapp'
-    packageForLinux: '$(System.ArtifactsDirectory)'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/nganurag/**.zip'
+
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(Build.BinariesDirectory)'
+#     includeRootFolder: true
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#     replaceExistingArchive: true
+
+# - task: DownloadBuildArtifacts@1
+#   inputs:
+#     buildType: 'current'
+#     downloadType: 'single'
+#     artifactName: 'DownloadAngularApp'    
+#     downloadPath: '$(System.ArtifactsDirectory)/$(Build.BuildId).zip'
