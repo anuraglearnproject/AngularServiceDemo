@@ -35,7 +35,7 @@ steps:
     buildType: 'current'
     downloadType: 'single'
     artifactName: 'DownloadAngularApp'
-    downloadPath: '$(System.ArtifactsDirectory)'
+    downloadPath: '$(System.ArtifactsDirectory)/$(Build.BuildId).zip'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
