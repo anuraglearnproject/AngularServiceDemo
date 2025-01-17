@@ -39,7 +39,7 @@ steps:
     azureSubscription: 'SVCAngularApp'
     appType: 'webApp'
     WebAppName: 'aipngapp'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/nganurag/**.zip'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**.zip'
 
 # - task: ArchiveFiles@2
 #   inputs:
