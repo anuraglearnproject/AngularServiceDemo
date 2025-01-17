@@ -20,3 +20,25 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'AngularApp'
+    publishLocation: 'Container'
+
+- task: DownloadBuildArtifacts@1
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    artifactName: 'DownloadAngularApp'
+    downloadPath: '$(System.ArtifactsDirectory)'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'SVCAngularApp'
+    appType: 'webApp'
+    WebAppName: 'aipngapp'
+    packageForLinux: '$(System.ArtifactsDirectory)'
