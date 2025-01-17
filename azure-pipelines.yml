@@ -17,29 +17,32 @@ steps:
 
 - script: |
     cd nganurag
+    npm install -g @angular/cli
     npm install
-    npm run build --prod
+    npm run build --configuration=production
   displayName: 'npm install and build'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'nganurag/dist'
-    ArtifactName: 'nganurag/dist'
-    
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'SVCAngularApp'
-    appType: 'webApp'
-    WebAppName: 'aipngapp'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**.zip'
+
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: 'nganurag/dist'
+#     ArtifactName: 'nganurag/dist'
+    
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+#     includeRootFolder: true
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#     replaceExistingArchive: true
+
+# - task: AzureRmWebAppDeployment@4
+#   inputs:
+#     ConnectionType: 'AzureRM'
+#     azureSubscription: 'SVCAngularApp'
+#     appType: 'webApp'
+#     WebAppName: 'aipngapp'
+#     packageForLinux: '$(System.DefaultWorkingDirectory)/**.zip'
 
 # - task: ArchiveFiles@2
 #   inputs:
