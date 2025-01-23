@@ -1,0 +1,29 @@
+<!-- products.component.html -->
+<div>
+    <h1>Our Products</h1>
+    <p>This is the products page where we list our amazing products!</p>
+    <!-- search-form.component.html -->
+<form (ngSubmit)="callLoadProducts()">
+    <input 
+      type="text" 
+      [(ngModel)]="searchParam.query" 
+      name="query" 
+      placeholder="Search Query" 
+      required
+    />
+    <input 
+      type="number" 
+      [(ngModel)]="searchParam.pageSize" 
+      name="pageSize" 
+      placeholder="Page Size" 
+      required
+    />
+    <button type="submit">Submit</button>
+  </form>
+  
+    <p>{{callProductServe.loading}}</p>
+    <div>
+        {{callProductServe.resultData.collection.items[0].data|json}}
+    </div>
+  </div>
+  
