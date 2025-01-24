@@ -1,29 +1,58 @@
 <!-- products.component.html -->
 <div>
-    <h1>Our Products</h1>
-    <p>This is the products page where we list our amazing products!</p>
-    <!-- search-form.component.html -->
-<form (ngSubmit)="callLoadProducts()">
-    <input 
-      type="text" 
-      [(ngModel)]="searchParam.query" 
-      name="query" 
-      placeholder="Search Query" 
-      required
-    />
-    <input 
-      type="number" 
-      [(ngModel)]="searchParam.pageSize" 
-      name="pageSize" 
-      placeholder="Page Size" 
-      required
-    />
+  <h1>Our Products</h1>
+  <p>This is the products page where we list our amazing products!</p>
+  <!-- search-form.component.html -->
+  <form (ngSubmit)="callLoadProducts()">
+    <input type="text" [(ngModel)]="searchParam.query" name="query" placeholder="Search Query" required />
+    <input type="number" [(ngModel)]="searchParam.pageSize" name="pageSize" placeholder="Page Size" required />
     <button type="submit">Submit</button>
   </form>
-  
-    <p>{{callProductServe.loading}}</p>
-    <div>
-        {{callProductServe.resultData.collection.items[0].data|json}}
+
+  <p>{{callProductServe.loading}}</p>
+  <div>
+    <!-- images:  {{callProductServe.resultData.collection.items[0].links|json}} -->
+    <!-- data:  {{callProductServe.resultData.collection.items[0].data[0]|json}} -->
+    <hr>
+    <div *ngIf="callProductServe.resultData.collection">
+      <div *ngIf="callProductServe.resultData.collection.items">
+        <div *ngFor="let item of callProductServe.resultData.collection.items;let i = index">
+          <div *ngIf="item.data">
+            <div *ngFor="let data of callProductServe.getData(item.data)">
+              {{i+1}}
+              {{data.title}}
+              {{data.date_created}}
+              {{data.secondary_creator}}
+            </div>
+          </div>
+          <div *ngIf="item.links">
+            <div *ngFor="let image of callProductServe.getImages(item.links)">
+              <p style="background-image: url({{image.href}})" class="img"
+              data-bs-toggle="popover" data-bs-content="Click on image to see full view"
+               (click)="openModal(image.href)"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Full View Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- Image will be shown here -->
+        <img [src]="modalImageUrl" class="img-fluid" alt="Image in full view">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
-  
+</div>
