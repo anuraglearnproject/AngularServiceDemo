@@ -1,17 +1,26 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoadproductsService } from '../../services/loadproducts.service';
 import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UtilityService } from '../../services/utility.service';
+import { NgbModalModule, NgbCarouselModule, NgbPopoverModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-demoservice',
-  imports: [CommonModule, FormsModule, NgFor],
+  imports: [CommonModule, FormsModule, NgFor, NgbModalModule, NgbCarouselModule,
+    NgbPopoverModule, NgbPaginationModule],
   templateUrl: './demoservice.component.html',
   styleUrl: './demoservice.component.css'
 })
-export class DemoserviceComponent implements OnInit, AfterViewInit {
+export class DemoserviceComponent implements OnInit {
 
+  private checkElements: any;
+  totalItems: number = 0;
+  currentPage: number = 1;
+  paginationPageSize: number = 10;
+  // List of available page sizes
+  pageSizes: number[] = [5, 10, 15, 20];
   searchParam = {
     query: 'all',
     pageSize: 100
@@ -45,18 +54,13 @@ export class DemoserviceComponent implements OnInit, AfterViewInit {
     this.callLoadProducts();
   }
 
-
-  initializePopover(): void {
-    // Initialize all popovers in the view
-    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl, { trigger: 'hover' });
-    });
+  getPaginatedData() {
+    const startIndex = (this.currentPage - 1) * this.paginationPageSize;
+    const endIndex = startIndex + this.paginationPageSize;
+    return this.callProductServe.resultData.collection.items.slice(startIndex, endIndex);
   }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.initializePopover();
-    }, 10);
+  // Called whenever the page size is changed by the user
+  onPageSizeChange() {
+    this.currentPage = 1; // Reset to first page whenever page size changes
   }
 }
