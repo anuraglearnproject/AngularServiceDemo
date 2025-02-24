@@ -15,7 +15,10 @@ declare var bootstrap: any;
 })
 export class DemoserviceComponent implements OnInit {
 
-  private checkElements: any;
+  //slider
+  selectedImages: any[] = []; // Store images for modal
+  selectedIndex: string = '';  // Store index of clicked image
+
   totalItems: number = 0;
   currentPage: number = 1;
   paginationPageSize: number = 10;
@@ -42,14 +45,25 @@ export class DemoserviceComponent implements OnInit {
    * Method to open the modal with the given image URL
    * @param imageUrl - to store the image source url.
    */
-  openModal(imageUrl: string): void {
-    this.modalImageUrl = imageUrl;
-    // Manually trigger Bootstrap modal open
+  openModal(images: any[], index: number) {
+    this.selectedImages = images;
+    this.selectedIndex = index.toString();
     const modalElement = document.getElementById('imageModal');
-    const modal = new bootstrap.Modal(modalElement!);
-    modal.show();
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
   }
 
+  openImageInNewTab() {
+    if (this.selectedImages.length > 0 && parseInt(this.selectedIndex) >= 0) {
+      const activeImageUrl = this.selectedImages[parseInt(this.selectedIndex)].href;
+      if (activeImageUrl) {
+        window.open(activeImageUrl, '_blank');
+      }
+    }
+  }
+  
   ngOnInit(): void {
     this.callLoadProducts();
   }

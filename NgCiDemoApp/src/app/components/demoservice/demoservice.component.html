@@ -61,10 +61,11 @@
                   <td [title]="data.keywords">{{utilServe.getTrimed(data.keywords, 20)}}</td>
                   <td>
                     <ngb-carousel #carousel [interval]="3000" [keyboard]="true" *ngIf="item.links"
-                      [ngbPopover]="data.description" [popoverTitle]="data.description_508" triggers="hover">
-                      <ng-template ngbSlide *ngFor="let image of callProductServe.getImages(item.links)">
+                      [ngbPopover]="data.description" [popoverTitle]="data.description_508"
+                       triggers="hover" class="tbl-carousel">
+                      <ng-template ngbSlide *ngFor="let image of callProductServe.getImages(item.links); let i = index">
                         <img [src]="image.href" [alt]="data.title" class="d-block w-100"
-                          (click)="openModal(image.href)" />
+                          (click)="openModal(callProductServe.getImages(item.links), i)" />
                       </ng-template>
                       <!-- Previous control -->
                       <button class="carousel-control-prev" type="button" (click)="carousel.prev()">
@@ -95,11 +96,28 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="imageModalLabel">Full View Image</h5>
+            <button type="button" class="btn btn-primary ms-auto" (click)="openImageInNewTab()">Open in New Tab</button>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body text-center">
-            <!-- Image will be shown here -->
-            <img [src]="modalImageUrl" class="img-fluid" alt="Image in full view">
+            <ngb-carousel #modalCarousel [interval]="3000" [keyboard]="true" [activeId]="selectedIndex">
+              <ng-template ngbSlide *ngFor="let img of selectedImages; let idx = index">
+                <img [src]="img.href" class="d-block w-100" [alt]="'Image ' + idx" />
+              </ng-template>
+    
+              <!-- Previous control -->
+              <button class="carousel-control-prev" type="button" (click)="modalCarousel.prev()">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+    
+              <!-- Next control -->
+              <button class="carousel-control-next" type="button" (click)="modalCarousel.next()">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+    
+            </ngb-carousel>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
