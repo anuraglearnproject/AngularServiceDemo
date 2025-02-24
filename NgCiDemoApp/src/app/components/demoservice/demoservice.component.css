@@ -17,7 +17,11 @@ form {
     border: 1px solid #4CAF50;
   }
 
+<<<<<<< HEAD
   .tbl-carousel{
+=======
+  .carousel{
+>>>>>>> 8c5a438be17b509ec2ba86320bd2f3f06ac52759
     height: 150px;
     width: 200px;
     overflow: hidden;

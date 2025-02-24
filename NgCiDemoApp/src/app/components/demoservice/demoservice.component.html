@@ -61,11 +61,18 @@
                   <td [title]="data.keywords">{{utilServe.getTrimed(data.keywords, 20)}}</td>
                   <td>
                     <ngb-carousel #carousel [interval]="3000" [keyboard]="true" *ngIf="item.links"
+<<<<<<< HEAD
                       [ngbPopover]="data.description" [popoverTitle]="data.description_508"
                        triggers="hover" class="tbl-carousel">
                       <ng-template ngbSlide *ngFor="let image of callProductServe.getImages(item.links); let i = index">
                         <img [src]="image.href" [alt]="data.title" class="d-block w-100"
                           (click)="openModal(callProductServe.getImages(item.links), i)" />
+=======
+                      [ngbPopover]="data.description" [popoverTitle]="data.description_508" triggers="hover">
+                      <ng-template ngbSlide *ngFor="let image of callProductServe.getImages(item.links)">
+                        <img [src]="image.href" [alt]="data.title" class="d-block w-100"
+                          (click)="openModal(image.href)" />
+>>>>>>> 8c5a438be17b509ec2ba86320bd2f3f06ac52759
                       </ng-template>
                       <!-- Previous control -->
                       <button class="carousel-control-prev" type="button" (click)="carousel.prev()">
@@ -96,6 +103,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="imageModalLabel">Full View Image</h5>
+<<<<<<< HEAD
             <button type="button" class="btn btn-primary ms-auto" (click)="openImageInNewTab()">Open in New Tab</button>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -118,6 +126,13 @@
               </button>
     
             </ngb-carousel>
+=======
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <!-- Image will be shown here -->
+            <img [src]="modalImageUrl" class="img-fluid" alt="Image in full view">
+>>>>>>> 8c5a438be17b509ec2ba86320bd2f3f06ac52759
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
