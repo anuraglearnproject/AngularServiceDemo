@@ -1,0 +1,24 @@
+/* search-form.component.css */
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+ 
+  .img{
+    height: 250px;
+    width: 250px;
+    border: 1px solid #4CAF50;
+  }
+
+  .carousel{
+    height: 150px;
+    width: 200px;
+    overflow: hidden;
+  }

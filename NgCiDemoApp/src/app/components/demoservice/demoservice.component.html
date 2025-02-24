@@ -1,0 +1,109 @@
+<!-- products.component.html -->
+<div>
+  <h1>Our Products</h1>
+  <p>This is the products page where we list our amazing products!</p>
+  <!-- search-form.component.html -->
+  <form (ngSubmit)="callLoadProducts()">
+    <input type="text" [(ngModel)]="searchParam.query" class="form-control mb-2" name="query" placeholder="Search Query"
+      required />
+    <input type="number" [(ngModel)]="searchParam.pageSize" class="form-control mb-3" name="pageSize"
+      placeholder="Page Size" required />
+    <button type="submit" class="btn btn-success" [disabled]="callProductServe.loading=='loading...'">Submit</button>
+  </form>
+
+  <p>{{callProductServe.loading}}</p>
+  <div>
+    <!-- images:  {{callProductServe.resultData.collection|json}} -->
+    <!-- images:  {{callProductServe.resultData.collection.items[0].links|json}} -->
+    <!-- data:  {{callProductServe.resultData.collection.items[0].data[0]|json}} -->
+    <hr>
+    <div *ngIf="callProductServe.resultData.collection">
+      <ng-container *ngIf="callProductServe.resultData.collection.items">
+        <!-- Pagination Component -->
+        <div class="d-flex justify-content-center align-items-center" [title]="callProductServe.resultData.collection.items.length" style="gap: 10px;">
+          <!-- Page Size Dropdown -->
+          <select id="pageSize" [(ngModel)]="paginationPageSize" (change)="onPageSizeChange()"
+            class="form-select" style="max-width: 150px;">
+            <option value="1">Select show rows count</option>
+            <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+          </select>
+        
+          <!-- Pagination Component -->
+          <ngb-pagination [collectionSize]="callProductServe.resultData.collection.items.length" 
+          class="mt-3"
+            [(page)]="currentPage" [pageSize]="paginationPageSize" [boundaryLinks]="true">
+          </ngb-pagination>
+        </div>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th>S.N.</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Creator</th>
+              <th>M.Type</th>
+              <th>Center</th>
+              <th>Keywords</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of getPaginatedData();let i = index">
+              <ng-container *ngIf="item.data">
+                <tr *ngFor="let data of callProductServe.getData(item.data)">
+                  <td>{{i+1}}</td>
+                  <td [title]="data.title">{{utilServe.getTrimed(data.title, 20)}}</td>
+                  <td>{{data.date_created}}</td>
+                  <td [title]="data.secondary_creator">{{utilServe.getTrimed(data.secondary_creator, 10)}}</td>
+                  <td>{{data.media_type}}</td>
+                  <td>{{data.center}}</td>
+                  <td [title]="data.keywords">{{utilServe.getTrimed(data.keywords, 20)}}</td>
+                  <td>
+                    <ngb-carousel #carousel [interval]="3000" [keyboard]="true" *ngIf="item.links"
+                      [ngbPopover]="data.description" [popoverTitle]="data.description_508" triggers="hover">
+                      <ng-template ngbSlide *ngFor="let image of callProductServe.getImages(item.links)">
+                        <img [src]="image.href" [alt]="data.title" class="d-block w-100"
+                          (click)="openModal(image.href)" />
+                      </ng-template>
+                      <!-- Previous control -->
+                      <button class="carousel-control-prev" type="button" (click)="carousel.prev()">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+
+                      <!-- Next control -->
+                      <button class="carousel-control-next" type="button" (click)="carousel.next()">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </ngb-carousel>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+
+      </ng-container>
+
+    </div>
+
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="imageModalLabel">Full View Image</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <!-- Image will be shown here -->
+            <img [src]="modalImageUrl" class="img-fluid" alt="Image in full view">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
