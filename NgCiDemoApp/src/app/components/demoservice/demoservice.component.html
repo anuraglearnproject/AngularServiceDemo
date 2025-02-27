@@ -1,18 +1,22 @@
 <!-- products.component.html -->
 <div>
-
-  <!-- search-form.component.html -->
-  <form (ngSubmit)="callLoadProducts()" class="my-3">
-    <h1>Our Products</h1>
-    <p>This is the products page where we list our amazing products!</p>
-    <input type="text" [(ngModel)]="searchParam.query" class="form-control mb-2" name="query" placeholder="Search Query"
-      required />
-    <input type="number" [(ngModel)]="searchParam.pageSize" class="form-control mb-3" name="pageSize"
-      placeholder="Page Size" required />
-    <button type="submit" class="btn btn-success" [disabled]="callProductServe.loading=='loading...'">Submit</button>
-    <p class="text-center">{{callProductServe.loading}}</p>
-
-  </form>
+  <div class="row">
+    <div class="col"></div>
+    <div class="col">
+      <form (ngSubmit)="callLoadProducts()" class="my-3">
+        <h1>Our Products</h1>
+        <p>This is the products page where we list our amazing products!</p>
+        <input type="text" [(ngModel)]="searchParam.query" class="form-control mb-2" name="query" placeholder="Search Query"
+          required />
+        <input type="number" [(ngModel)]="searchParam.pageSize" class="form-control mb-3" name="pageSize"
+          placeholder="Page Size" required />
+        <button type="submit" class="btn btn-success" [disabled]="callProductServe.loading=='loading...'">Submit</button>
+        <p class="text-center">{{callProductServe.loading}}</p>
+    
+      </form>    
+    </div>
+    <div class="col"></div>
+  </div>
 
   <div>
     <!-- images:  {{callProductServe.resultData.collection|json}} -->
@@ -127,3 +131,5 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
