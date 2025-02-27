@@ -23,7 +23,7 @@ export class DemoserviceComponent implements OnInit {
   currentPage: number = 1;
   paginationPageSize: number = 10;
   // List of available page sizes
-  pageSizes: number[] = [5, 10, 15, 20];
+  pageSizes: number[] = [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   searchParam = {
     query: 'all',
     pageSize: 100
