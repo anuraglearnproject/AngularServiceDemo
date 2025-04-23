@@ -4,6 +4,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UtilityService } from '../../services/utility.service';
 import { NgbModalModule, NgbCarouselModule, NgbPopoverModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 
 declare var bootstrap: any;
 @Component({
@@ -30,7 +31,9 @@ export class DemoserviceComponent implements OnInit {
   }
   callProductServe: LoadproductsService;
   utilServe: UtilityService;
-  constructor(prodServe: LoadproductsService, utilServe: UtilityService) {
+  constructor(prodServe: LoadproductsService, utilServe: UtilityService,
+    private route: ActivatedRoute
+  ) {
     this.callProductServe = prodServe;
     this.utilServe = utilServe;
   }
@@ -65,7 +68,13 @@ export class DemoserviceComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.callLoadProducts();
+    this.route.queryParams.subscribe(params => {
+      const query = params['query']; // Get 'query' from the URL
+      if (query) {
+        this.searchParam.query = query; // Set searchParam.query to the value from URL
+      }
+      this.callLoadProducts(); // Load products with the updated query
+    });
   }
 
   getPaginatedData() {

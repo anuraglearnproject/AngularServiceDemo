@@ -12,6 +12,7 @@
           placeholder="Page Size" required />
         <button type="submit" class="btn btn-success" [disabled]="callProductServe.loading=='loading...'">Submit</button>
         <p class="text-center">{{callProductServe.loading}}</p>
+        <h5 class="text-center" *ngIf="callProductServe.loading.includes('error')">Please try again by entering other keywords or check page size.</h5>
     
       </form>    
     </div>
