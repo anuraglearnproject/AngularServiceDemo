@@ -22,7 +22,7 @@ export class DemoserviceComponent implements OnInit {
 
   totalItems: number = 0;
   currentPage: number = 1;
-  paginationPageSize: number = 10;
+  paginationPageSize: number = 50;
   // List of available page sizes
   pageSizes: number[] = [5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   searchParam = {
@@ -40,6 +40,11 @@ export class DemoserviceComponent implements OnInit {
 
   callLoadProducts() {
     this.callProductServe.loadProducts(this.searchParam.query, this.searchParam.pageSize);
+    const activeElement = document.activeElement as HTMLElement;
+    // If an element is focused, blur it
+    if (activeElement) {
+      activeElement.blur();
+    }
   }
 
   modalImageUrl: string = '';  // Variable to store image URL for modal
@@ -85,5 +90,9 @@ export class DemoserviceComponent implements OnInit {
   // Called whenever the page size is changed by the user
   onPageSizeChange() {
     this.currentPage = 1; // Reset to first page whenever page size changes
+  }
+
+  onResetButtonClick(){
+    this.ngOnInit();
   }
 }

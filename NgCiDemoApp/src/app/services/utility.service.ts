@@ -25,4 +25,18 @@ export class UtilityService {
     }
     return data;
   }
+
+  formatDate(isoDate:string, requireFullDate = false) {
+    const dateObj = new Date(isoDate);  
+    const formattedDate = dateObj.toLocaleDateString('en-US', 
+      { month: 'short', day: 'numeric', year: 'numeric' });
+  
+    if (requireFullDate) {
+      const time = dateObj.toLocaleTimeString('en-US',
+         { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      return `${formattedDate}, ${time}`;
+    }
+  
+    return formattedDate;
+  }
 }

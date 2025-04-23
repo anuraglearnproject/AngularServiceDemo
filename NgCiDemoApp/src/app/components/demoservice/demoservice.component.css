@@ -21,3 +21,8 @@ form {
     width: 200px;
     overflow: hidden;
   }
+
+  .disabled input, .disabled button {
+    pointer-events: none;
+    opacity: 0.5;
+  }

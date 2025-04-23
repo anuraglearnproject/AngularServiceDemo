@@ -1,21 +1,27 @@
 <!-- products.component.html -->
-<div>
+<div style="overflow-x: hidden;">
   <div class="row">
     <div class="col"></div>
     <div class="col">
+      <div [ngClass]="{ 'disabled': callProductServe.loading == 'loading...' }">
       <form (ngSubmit)="callLoadProducts()" class="my-3">
+        
         <h1>Our Products</h1>
         <p>This is the products page where we list our amazing products!</p>
-        <input type="text" [(ngModel)]="searchParam.query" class="form-control mb-2" name="query" placeholder="Search Query"
+        <input type="text" [(ngModel)]="searchParam.query" class="form-control mb-2"
+         name="query" placeholder="Search Query"
           required />
-        <input type="number" [(ngModel)]="searchParam.pageSize" class="form-control mb-3" name="pageSize"
+        <input type="number" [(ngModel)]="searchParam.pageSize"
+         class="form-control mb-3" name="pageSize"
           placeholder="Page Size" required />
-        <button type="submit" class="btn btn-success" [disabled]="callProductServe.loading=='loading...'">Submit</button>
-        <p class="text-center">{{callProductServe.loading}}</p>
-        <h5 class="text-center" *ngIf="callProductServe.loading.includes('error')">Please try again by entering other keywords or check page size.</h5>
-    
+          <h5 class="text-center" *ngIf="callProductServe.loading.includes('error')">Please try again by entering other keywords or check page size.</h5>
+          <p class="text-center">{{callProductServe.loading}}</p>
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="reset" class="btn btn-info mt-2 text-white"
+         (click)="onResetButtonClick()">Reset</button>
       </form>    
     </div>
+  </div>
     <div class="col"></div>
   </div>
 
@@ -35,11 +41,11 @@
             <option value="1">Select show rows count</option>
             <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
           </select>
-
+        <div style="overflow-x: auto;" class="mt-3">
           <!-- Pagination Component -->
-          <ngb-pagination [collectionSize]="callProductServe.resultData.collection.items.length" class="mt-3"
-            [(page)]="currentPage" [pageSize]="paginationPageSize" [boundaryLinks]="true">
+          <ngb-pagination [collectionSize]="callProductServe.resultData.collection.items.length"             [(page)]="currentPage" [pageSize]="paginationPageSize" [boundaryLinks]="true">
           </ngb-pagination>
+        </div>
         </div>
 
         <table class="table">
@@ -60,12 +66,12 @@
               <ng-container *ngIf="item.data">
                 <tr *ngFor="let data of callProductServe.getData(item.data)">
                   <td>{{i+1}}</td>
-                  <td [title]="data.title">{{utilServe.getTrimed(data.title, 20)}}</td>
-                  <td>{{data.date_created}}</td>
+                  <td [title]="data.title">{{utilServe.getTrimed(data.title, 17)}}</td>
+                  <td>{{utilServe.formatDate(data.date_created)}}</td>
                   <td [title]="data.secondary_creator">{{utilServe.getTrimed(data.secondary_creator, 10)}}</td>
                   <td>{{data.media_type}}</td>
                   <td>{{data.center}}</td>
-                  <td [title]="data.keywords">{{utilServe.getTrimed(data.keywords, 20)}}</td>
+                  <td [title]="data.keywords">{{utilServe.getTrimed(data.keywords, 17)}}</td>
                   <td>
                     <ngb-carousel #carousel [interval]="3000" [keyboard]="true" *ngIf="item.links"
                       [ngbPopover]="data.description" [popoverTitle]="data.description_508" triggers="hover"
