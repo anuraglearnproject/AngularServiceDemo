@@ -73,6 +73,10 @@ export class DemoserviceComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(){
     this.route.queryParams.subscribe(params => {
       const query = params['query']; // Get 'query' from the URL
       if (query) {
@@ -87,12 +91,15 @@ export class DemoserviceComponent implements OnInit {
     const endIndex = startIndex + this.paginationPageSize;
     return this.callProductServe.resultData.collection.items.slice(startIndex, endIndex);
   }
+  
   // Called whenever the page size is changed by the user
   onPageSizeChange() {
     this.currentPage = 1; // Reset to first page whenever page size changes
   }
 
   onResetButtonClick(){
-    this.ngOnInit();
+    this.searchParam.query = 'all';
+    this.searchParam.pageSize = 100;
+    this.loadData();
   }
 }
